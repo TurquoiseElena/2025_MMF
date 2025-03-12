@@ -1,3 +1,5 @@
+import pandas
+
 
 # Functions go here...
 def make_statement(question, decoration):
@@ -79,6 +81,11 @@ def int_check(question):
             print("Please enter an integer")
 
 
+def currency(x):
+    """Formats numbers as currency ($#.##)"""
+    return "${:.2f}".format(x)
+
+
 # Main routine goose here
 
 # Initialise ticket numbers
@@ -126,13 +133,12 @@ while tickets_sold < MAX_TICKETS:
     print()
     name = not_blank("Name: ")
 
-    # if name is exit coed , break out of loop
+    # if name is exit coad , break out of loop
     if name == "xxx":
         break
 
     # Ask for their age and check it's between 12 and 120
     age = int_check("Age: ")
-    print("Age: ", age)
 
     # Output error message / success message
     if age < 12:
@@ -172,7 +178,31 @@ while tickets_sold < MAX_TICKETS:
 
     tickets_sold += 1
 
+# End of Ticket Loop!
 
+# create dataframe / table from dictionary
+mini_movie_frame = pandas.DataFrame(mini_movie_dict)
+
+mini_movie_frame['Total'] = mini_movie_frame['Ticket Price'] + mini_movie_frame['Surcharge']
+mini_movie_frame['Profit'] = mini_movie_frame['Ticket Price'] - 5
+
+# Work out total paid and total profit...
+total_paid = mini_movie_frame['Total'].sum()
+total_profit = mini_movie_frame['Profit'].sum()
+
+# Currency Formatting (uses currency formation)
+add_dollars = ['Ticket Price', 'Surcharge', 'Total', 'Profit']
+for var_item in add_dollars:
+    mini_movie_frame[var_item] = mini_movie_frame[var_item].apply(currency)
+
+# Output movie from without index
+# print(mini_movie_frame)
+print(mini_movie_frame.to_string(index=False))
+
+# print(mini_movie_frame)
+print()
+print(f"Total Paid: ${total_paid:.2f}")
+print(f"Total Profit: ${total_profit:.2f}")
 
 if tickets_sold == MAX_TICKETS:
     print(f"You have sold all the tickets (ie: {MAX_TICKETS} tickets")
