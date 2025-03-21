@@ -1,11 +1,15 @@
 import pandas
 import random
 
+from Experimrnt.c_09_raffle_winner_v1 import total_won
+
 
 # Functions go here...
-def make_statement(question, decoration):
+def make_statement(statement, decoration):
     """Emphasises headings by adding decoration
     at the start and end"""
+
+    print(f"{decoration * 3} {statement} {decoration * 3}")
 
 
 def string_check(question, valid_ans_list=('yes', 'no'),
@@ -216,22 +220,10 @@ print()
 print(f"Total Paid: ${total_paid:.2f}")
 print(f"Total Profit: ${total_profit:.2f}")
 
-# choose random winner...
-winner = random.choice(all_names)
-
-# find index of winner (ie: position in list)
-winner_index = all_names.index(winner)
-print("winner", winner, "list position", winner_index)
-
-# retrieve ticket price and surcharge
-winner_ticket_price = all_ticket_costs[winner_index]
-winner_surcharge = all_surcharges[winner_index]
-
-# find total won
-total_won = mini_movie_frame.at[winner_index, 'Total']
-
 # winner announcement
 print(f"The lucky winner is {winner}. Their ticket worth {total_won} is free!")
+print(f"Total paid is now {total_paid - ticket_won:.2f}")
+print(f"Total Profit is now {total_profit - profit_won:.2f}")
 
 if tickets_sold == MAX_TICKETS:
     print(f"You have sold all the tickets (ie: {MAX_TICKETS} tickets")

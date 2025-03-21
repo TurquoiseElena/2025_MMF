@@ -1,0 +1,30 @@
+--- Mini Movie Frame ---
+
+
+--- Ticket Details ---
+Name Ticket Price Surcharge  Total Profit
+   a        $7.50     $0.00  $7.50  $2.50
+   e       $10.50     $0.53 $11.03  $5.50
+   g       $10.50     $0.53 $11.03  $5.50
+   h       $10.50     $0.00 $10.50  $5.50
+
+
+Total Paid: $40.05
+Total Profit: $19.00
+
+
+--- --- Raffle Winner --- ---
+The lucky winner is g. Their ticket worth 11.03 is free!
+
+
+--- Adjusted Sales & Profit ---
+We have givan away a ticket wort $11.03 which 
+means our sales have decreased by $11.03 and our 
+profit decreased by $5.50.
+
+
+Total paid is now 29.02
+Total Profit is now 13.50
+
+
+--- You have sold 4 / 5 tickets. ---

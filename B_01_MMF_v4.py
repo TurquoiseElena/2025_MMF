@@ -1,11 +1,15 @@
 import pandas
 import random
 
+from Experimrnt.c_09_raffle_winner_v1 import total_won
+
 
 # Functions go here...
-def make_statement(question, decoration):
+def make_statement(statement, decoration):
     """Emphasises headings by adding decoration
     at the start and end"""
+
+    return f"{decoration * 3} {statement} {decoration * 3}"
 
 
 def string_check(question, valid_ans_list=('yes', 'no'),
@@ -33,7 +37,7 @@ def string_check(question, valid_ans_list=('yes', 'no'),
 
 
 def instruction():
-    make_statement("Instrucions", "ℹ️")
+    print(make_statement("Instrucions", "ℹ️"))
 
     print('''
     
@@ -116,7 +120,7 @@ mini_movie_dict = {
 }
 
 # Program main heading
-make_statement("Mini-Movie Fundraiser Program", "🍿")
+print(make_statement("Mini-Movie Fundraiser Program", "🍿"))
 
 # Ask user if they want to see the instr
 # display them if necessary
@@ -134,7 +138,7 @@ while tickets_sold < MAX_TICKETS:
     print()
     name = not_blank("Name: ")
 
-    # if name is exit coad , break out of loop
+    # if name is exit coed , break out of loop
     if name == "xxx":
         break
 
@@ -196,7 +200,6 @@ winner = random.choice(all_names)
 
 # find index of winner (ie: position in list)
 winner_index = all_names.index(winner)
-print("winner", winner, "list position", winner_index)
 
 # retrieve Winner Ticket Price and Profit (so we can adjust
 # profit numbers so that the winning ticket is ewcluded)
@@ -210,30 +213,68 @@ for var_item in add_dollars:
 
 # Output movie from without index
 # print(mini_movie_frame)
-print(mini_movie_frame.to_string(index=False))
+mini_movie_string = mini_movie_frame.to_string(index=False)
 
-print()
-print(f"Total Paid: ${total_paid:.2f}")
-print(f"Total Profit: ${total_profit:.2f}")
+total_paid_string = f"Total Paid: ${total_paid:.2f}"
+total_profit_string = f"Total Profit: ${total_profit:.2f}"
 
-# choose random winner...
-winner = random.choice(all_names)
 
-# find index of winner (ie: position in list)
-winner_index = all_names.index(winner)
-print("winner", winner, "list position", winner_index)
+adjusted_explanation = (f"We have givan away a ticket wort ${ticket_won:.2f} which \n"
+                        f"means our sales have decreased by ${total_won:.2f} and our \n"
+                        f"profit decreased by ${profit_won:.2f}.")
 
-# retrieve ticket price and surcharge
-winner_ticket_price = all_ticket_costs[winner_index]
-winner_surcharge = all_surcharges[winner_index]
-
-# find total won
-total_won = mini_movie_frame.at[winner_index, 'Total']
 
 # winner announcement
-print(f"The lucky winner is {winner}. Their ticket worth {total_won} is free!")
+lucky_winner_string = (f"The lucky winner is {winner}. "
+                       f"Their ticket worth {total_won:.2f} is free!")
+final_total_paid_string = f"Total paid is now {total_paid - ticket_won:.2f}"
+final_total_profit_string = f"Total Profit is now {total_profit - profit_won:.2f}"
 
 if tickets_sold == MAX_TICKETS:
-    print(f"You have sold all the tickets (ie: {MAX_TICKETS} tickets")
+    num_sold_string = make_statement(f"You have sold all the tickets "
+                                     f"(ie: {MAX_TICKETS} tickets)", "-")
 else:
-    print(f"You have sold {tickets_sold} / {MAX_TICKETS} tickets.")
+    num_sold_string = make_statement(f"You have sold {tickets_sold} / "
+                                     f"{MAX_TICKETS} tickets.", "-")
+
+# Additional strings / Headings
+heading_string = make_statement("Mini Movie Frame", "-")
+ticket_details_heading = make_statement("Ticket Details", "-")
+raffle_heading = make_statement("--- Raffle Winner ---", "-")
+adjusted_sales_heading = make_statement("Adjusted Sales & Profit",
+                                        "-")
+
+adjusted_explanation = (f"We have givan away a ticket wort ${ticket_won:.2f} which \n"
+                        f"means our sales have decreased by ${total_won:.2f} and our \n"
+                        f"profit decreased by ${profit_won:.2f}.")
+
+
+# List of strings to be outputted / written to file
+to_write  = [heading_string, "\n",
+             ticket_details_heading,
+             mini_movie_string, "\n",
+             total_paid_string,
+             total_profit_string, "\n",
+             raffle_heading,
+             lucky_winner_string, "\n",
+             adjusted_sales_heading,
+             adjusted_explanation, "\n",
+             final_total_paid_string,
+             final_total_profit_string, "\n",
+             num_sold_string]
+
+# Print area
+print()
+for item in to_write:
+    print(item)
+
+# create file to hold data (add .txt extension)
+file_name = "MMF_ticket_details"
+write_to = "{}.txt".format(file_name)
+
+text_file = open(write_to, "w+")
+
+# write the item to file
+for item in to_write:
+    text_file.write(item)
+    text_file.write("\n")
